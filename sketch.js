@@ -10,27 +10,37 @@ When you make a sound, yellow dots are generated at random positions, and their 
 //mic threshold : https://editor.p5js.org/p5/sketches/Sound:_Mic_Threshold
 //particle system: https://p5js.org/examples/simulate-particles.html
 
-let mic;
+//let mic;
 let phase = 0;
 let zoff = 0;
 
 let noiseCircles = [];
+
+let foodlocation = [];
+let food = 0;
+let feeding = false;
+let clearing = false;
+
+let hungry = 0;
+let full = 1;
+let creatureState = hungry;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
   mic = new p5.AudioIn();
   mic.start();
+  //addGuI();
 
   for (let i = 0; i < 25; i++) {
-    let x = random(width);
-    let y = random(height);
+
     let r1 = random(0.2, 1.2);
     let zoffUpdate1 = random(0.001, 0.0001);
     let noiseMax1 = random(0, 1.5);
 
-    noiseCircles[i] = new NoiseCircle(x, y, r1, zoffUpdate1, noiseMax1);
+    noiseCircles[i] = new NoiseCircle(random(width), random(height), r1, zoffUpdate1, noiseMax1);
   }
+  
 }
 
 function draw() {
@@ -39,10 +49,36 @@ function draw() {
   updateBG();
   randomPoints();
   soundThreshod();
+
+  food = foodlocation.length;//the number of food
+
   for (let i = 0; i < noiseCircles.length; i++) {
     noiseCircles[i].Draw(vol);
-    //littleCircle.move();
+    //noiseCircles[i].Draw(5);
     noiseCircles[i].crawling();
+    
+    for(let f = 0; f < foodlocation.length; f++){
+       if(noiseCircles[i].moveToFood(foodlocation[f].x,foodlocation[f].y)){
+        //when it eat, it become bigger
+        noiseCircles[i].br ++; 
+        //the scale limit
+        if(noiseCircles[i].br >= 100){
+          noiseCircles[i].br = 100;
+          creatureState = full;
+          noiseCircles[i].changeCoreColor(color(255,170));//change the core color
+        }
+       }else if(creatureState == full){
+        //returning to hungry state
+          if(noiseCircles[i].br >= 1){
+            noiseCircles[i].br -= 2;
+          }
+       }else{
+        creatureState = hungry;
+       }
+       //draw food
+        fill(255,100,100);
+        circle(foodlocation[f].x, foodlocation[f].y, 17);
+    }
 
     //communication
     let overlapping = false;
@@ -52,13 +88,15 @@ function draw() {
           overlapping = true;
           stroke(230, 238, 156, 100);
           strokeWeight(4);
-          line(noiseCircles[i].x,noiseCircles[i].y,noiseCircles[j].x,noiseCircles[j].y);
+          line(noiseCircles[i].location.x,noiseCircles[i].location.y,
+            noiseCircles[j].location.x,noiseCircles[j].location.y);
         }
       }
       //change color
       if (overlapping) {
         let c1 = color(255, 152, 0, 50);
         noiseCircles[i].changeColor(c1);
+        noiseCircles[i].changeCoreColor(c1);
       } else {
         let c2 = color(230, 238, 156, 25);
         noiseCircles[i].changeColor(c2);
@@ -70,11 +108,19 @@ function draw() {
 }
 
 function mousePressed() {
-  let r2 = random(0.2, 1.2);
-  let zoffUpdate2 = random(0.05, 0.0001);
-  let noiseMax2 = random(0, 1.5);
-  let n = new NoiseCircle(mouseX, mouseY, r2, zoffUpdate2, noiseMax2);
-  noiseCircles.push(n);
+  // let r2 = random(0.2, 1.2);
+  // let zoffUpdate2 = random(0.05, 0.0001);
+  // let noiseMax2 = random(0, 1.5);
+  // let n = new NoiseCircle(mouseX, mouseY, r2, zoffUpdate2, noiseMax2);
+  // noiseCircles.push(n);
+   
+  if (mouseX < width && mouseY < height) {
+    let foodLoc = createVector(mouseX, mouseY);
+    foodlocation.push(foodLoc);
+
+    //console.log(foodlocation);
+  }
+
 }
 
 function updateBG() {
@@ -107,3 +153,14 @@ function randomPoints() {
   fill(random(120, 255), random(120, 255), random(120, 255), random(100));
   ellipse(random(width), random(height), random(2, 25));
 }
+
+// function updateFood(){
+//   for(let i = food.length-1; i >= 0 ; i--){
+//     fill(100);
+//     circle(food[i].x,food[i].y,food[i].d);
+//     food[i].y += 1;
+//     if(food[i].y > height){
+//       food.splice(i,1);//remove one from array at index i
+//     }
+//   }
+// }
