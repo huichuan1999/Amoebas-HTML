@@ -5,7 +5,36 @@ html, body {
 }
 canvas {
   display: block;
+  margin:auto;
 }
+.button{
+  background-color: rgb(255,255,255,0.7);
+  border:dotted 2px;
+  color:cornflowerblue;
+  padding: 10px 17px;
+  text-align: center;
+  display:block;
+  margin:0 auto;
+  font-size: 16px;
+  min-width: 200px;
+  cursor: pointer;
+}
+
 #sketch-container{
+  position:relative;
   width: 100%;
+  
+}
+
+#gui-container{
+  position: fixed;
+  bottom: 0;
+  left: 10px;
+  z-index: 100;
+  width: 220px;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px 0;
+  box-sizing: border-box;
+  background-color: rgb(255,255,255,0.7);
 }
