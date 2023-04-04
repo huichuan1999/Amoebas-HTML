@@ -11,6 +11,7 @@ class NoiseCircle {
 
     this.desired = new createVector(0, 0);
     this.friction = new createVector(0, 0); 
+    this.speedLimit = random(1,this.br);
   }
 
   moveToFood(x, y){ //return a bool, whether the food is eaten
@@ -30,25 +31,36 @@ class NoiseCircle {
       this.velocity.add(direction);
     }
     return false;
+
   } 
 
-  crawling() {
-    // add friction to velocity
-    this.friction.x = this.velocity.x * -1;
-    this.friction.y = this.velocity.y * -1;
-    this.friction.normalize();
-    this.friction.mult(0.001);
-    this.velocity.add(this.friction);
+  firction(){
+    //if(this.moveToFood){
+      // add friction to velocity
+      this.friction.x = this.velocity.x * -1;
+      this.friction.y = this.velocity.y * -1;
+      this.friction.normalize();
+      this.friction.mult(0.1);
+      this.velocity.add(this.friction);
 
-    // let angle=noise(this.location.x/500, this.location.y/500, frameCount/20)*TWO_PI*2; //0-2PI
-    // this.location.x += this.velocity.x * cos(angle)*3;
-    // this.location.y += this.velocity.y * sin(angle)*3;
-    this.location.add(this.velocity);
+      this.velocity.limit(this.speedLimit);
+      this.location.add(this.velocity);
+    //}
+  }
+
+  crawling() {
+    
+    let angle=noise(this.location.x/500, this.location.y/500, frameCount/20)*TWO_PI*2; //0-2PI
+    this.location.x += this.velocity.x * cos(angle)*3;
+    this.location.y += this.velocity.y * sin(angle)*3;
+    //this.location.add(this.velocity);
     
     //bouncing
     if (this.location.x < 0 || this.location.x > width) this.velocity.x *= -1;
     if (this.location.y < 0 || this.location.y > height) this.velocity.y *= -1;
   }
+
+  
 
   communication(other) {
     let d = dist(this.location.x, this.location.y, other.location.x, other.location.y);
@@ -68,17 +80,20 @@ class NoiseCircle {
     this.color = c;
   }
 
-  changeCoreColor(c0){
-    this.coreColor = c0;
+  changeCoreColor(c){
+    this.coreColor = c;
+    //console.log(c0);
   }
 
   Draw(r) {
     push();
     translate(this.location.x, this.location.y);
-    stroke(255, 255, 200);
+    //stroke(255, 255, 200,50);
+    stroke(255,100);
     strokeWeight(1);
     
-    let alpha1 = map(sin(zoff), -1,1,0,255);
+    //let alpha1 = map(sin(zoff), -1,1,0,255);
+    let alpha1 = 5;
     
     fill(this.color,alpha1);
     beginShape();

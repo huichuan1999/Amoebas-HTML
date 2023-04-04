@@ -10,7 +10,7 @@ When you make a sound, yellow dots are generated at random positions, and their 
 //mic threshold : https://editor.p5js.org/p5/sketches/Sound:_Mic_Threshold
 //particle system: https://p5js.org/examples/simulate-particles.html
 
-//let mic;
+let mic;
 let phase = 0;
 let zoff = 0;
 
@@ -25,8 +25,12 @@ let hungry = 0;
 let full = 1;
 let creatureState = hungry;
 
+let canvas;
+let button;
+
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  canvas = createCanvas(windowWidth, windowHeight);
+  canvas.parent("sketch-container");
 
   mic = new p5.AudioIn();
   mic.start();
@@ -34,21 +38,22 @@ function setup() {
 
   for (let i = 0; i < 25; i++) {
 
-    let r1 = random(0.2, 1.2);
     let zoffUpdate1 = random(0.001, 0.0001);
     let noiseMax1 = random(0, 1.5);
 
-    noiseCircles[i] = new NoiseCircle(random(width), random(height), r1, zoffUpdate1, noiseMax1);
+    noiseCircles[i] = new NoiseCircle(random(width), random(height), 
+    random(0.2, 1.2), 
+    zoffUpdate1, noiseMax1);
   }
-  
+  addGUI();
 }
 
 function draw() {
   let vol = mic.getLevel() * 5;
 
-  updateBG();
+  //updateBG();
   randomPoints();
-  soundThreshod();
+  //soundThreshod();
 
   food = foodlocation.length;//the number of food
 
@@ -57,28 +62,36 @@ function draw() {
     //noiseCircles[i].Draw(5);
     noiseCircles[i].crawling();
     
-    for(let f = 0; f < foodlocation.length; f++){
-       if(noiseCircles[i].moveToFood(foodlocation[f].x,foodlocation[f].y)){
-        //when it eat, it become bigger
-        noiseCircles[i].br ++; 
-        //the scale limit
-        if(noiseCircles[i].br >= 100){
-          noiseCircles[i].br = 100;
-          creatureState = full;
-          noiseCircles[i].changeCoreColor(color(255,170));//change the core color
-        }
-       }else if(creatureState == full){
-        //returning to hungry state
-          if(noiseCircles[i].br >= 1){
-            noiseCircles[i].br -= 2;
-          }
-       }else{
-        creatureState = hungry;
-       }
-       //draw food
-        fill(255,100,100);
-        circle(foodlocation[f].x, foodlocation[f].y, 17);
-    }
+    // for(let f = 0; f < foodlocation.length; f++){
+    //    if(creatureState = hungry && 
+    //     noiseCircles[i].moveToFood(foodlocation[f].x,foodlocation[f].y)){
+    //     //when it eat, it become bigger HUNGRY // 在这里执行生物处于饥饿状态时的操作
+    //     //noiseCircles[i].firction();//减速
+    //     noiseCircles[i].br += 1; //变大
+        
+    //     //the scale limit   EAT THE FOOD
+    //     if(noiseCircles[i].br >= 100/* 这个生物进食了 */){ 
+    //       noiseCircles[i].br = 100;
+    //       creatureState = full;
+    //     }
+    //    }
+    //    else if(creatureState == full){ 
+    //     // 在这里执行生物处于饱食状态时的操作
+    //     //returning to hungry state
+    //       if(noiseCircles[i].br >= 1){
+    //         noiseCircles[i].br -= 1;
+    //         //noiseCircles[i].changeColor(color(255,170));//change the core color
+    //         noiseCircles[i].crawling();
+    //       }
+          
+    //    }else{
+    //     creatureState = hungry;
+    //     noiseCircles[i].crawling();
+    //    }
+    //    //draw food
+    //     fill(255,100,100);
+    //     circle(foodlocation[f].x, foodlocation[f].y, 17);
+    // }
 
     //communication
     let overlapping = false;
@@ -94,12 +107,11 @@ function draw() {
       }
       //change color
       if (overlapping) {
-        let c1 = color(255, 152, 0, 50);
-        noiseCircles[i].changeColor(c1);
-        noiseCircles[i].changeCoreColor(c1);
+        noiseCircles[i].changeColor(color(255, 152, 0, 50));
+        noiseCircles[i].changeCoreColor(color(255, 152, 0, 50));
       } else {
-        let c2 = color(230, 238, 156, 25);
-        noiseCircles[i].changeColor(c2);
+        noiseCircles[i].changeColor(color(230, 238, 156, 25));
+        noiseCircles[i].changeCoreColor(color(255,0,0));
       }
     }
     //noStroke();
@@ -148,10 +160,19 @@ function soundThreshod() {
 }
 
 function randomPoints() {
-  stroke(255, 255, 180);
-  strokeWeight(1);
-  fill(random(120, 255), random(120, 255), random(120, 255), random(100));
-  ellipse(random(width), random(height), random(2, 25));
+  //stroke(255, 255, 180,30);
+  //strokeWeight(1);
+  noStroke();
+  //fill(0, random(120, 255), random(120, 255), random(100));
+  fill(0, random(120, 255), random(120, 255),5);
+  ellipse(random(width), random(height), random(2, width));
+}
+
+function addGUI(){
+  button = createButton("CLEAR");
+
+  button.addClass("button");
+
 }
 
 // function updateFood(){
