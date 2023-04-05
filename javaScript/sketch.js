@@ -21,8 +21,6 @@ let newFoods = [];
 let feeding = false;
 let clearing = false;
 
-let hungry = 0;
-let full = 1;
 //let creatureState = "hungry";
 
 let canvas;
@@ -73,29 +71,31 @@ function draw() {
       if (noiseCircles[i].findFood(newFoods[f].location.x, newFoods[f].location.y)) {
         //when it eat, it become bigger HUNGRY // 在这里执行生物处于饥饿状态时的操作
 
-        console.log("Arrived");
+        //console.log("Arrived");
         noiseCircles[i].br += 0.1; //吃东西 变大
 
         //the scale limit   EAT THE FOOD
-        if (noiseCircles[i].br > 10) {
-          noiseCircles[i].br = 10;
+        if (noiseCircles[i].br > 7) {
+          noiseCircles[i].br = 7;
           noiseCircles[i].changeState("full");
+        }
+        else{
+          noiseCircles[i].changeState("hungry");
         }
       }
     }
     if (noiseCircles[i].creatureState == "full") {
       console.log("i am full");
       if (noiseCircles[i].br >= 1) { //returning to hungry state 
-        noiseCircles[i].br -= 0.1;
+        noiseCircles[i].br -= 0.2;
         noiseCircles[i].changeColor(color(255, 170));//change the core color
         noiseCircles[i].crawling();
-        console.log("i am being small");
+        //console.log("i am being small");
       } 
     }
     else{
         noiseCircles[i].changeState("hungry");
-        console.log("i am hungry");
-        //noiseCircles[i].changeColor(color(255, 170));
+       //noiseCircles[i].changeColor(color(255, 170));
     }
     if (noiseCircles[i].creatureState == "hungry") {
       //noiseCircles[i].changeColor(color(255, 170));
