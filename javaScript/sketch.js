@@ -17,7 +17,7 @@ let zoff = 0;
 let noiseCircles = [];
 
 let newFoods = [];
-//let food = [];
+
 let feeding = false;
 let clearing = false;
 
@@ -62,8 +62,6 @@ function draw() {
   if (frameCount % 4 == 0) randomPoints();
   //soundThreshod();
 
-  //food = newFoods.length;//the number of food
-
   for (let i = 0; i < noiseCircles.length; i++) {
     noiseCircles[i].Draw(vol);
     //noiseCircles[i].Draw(5);
@@ -78,7 +76,7 @@ function draw() {
         noiseCircles[i].br += 1; //吃东西 变大
 
             //the scale limit   EAT THE FOOD
-            if(noiseCircles[i].br > 20/* 这个生物变得太大了 */){ 
+            if(noiseCircles[i].br > 20){ 
               noiseCircles[i].br = 20;
               creatureState = full;
             }
@@ -100,8 +98,6 @@ function draw() {
       }
 
       //   draw food
-      //fill(255, 100, 100);
-      //circle(newFoods[f].x, newFoods[f].y, 17);
       newFoods[f].display();
     }
 
@@ -127,7 +123,6 @@ function draw() {
         noiseCircles[i].changeCoreColor(color(255, 0, 0));
       }
     }
-    //noStroke();
   }
 
 }
@@ -147,10 +142,7 @@ function mousePressed() {
 
 function pressOnCanvas() {
   if (mouseX < width && mouseY < height) {
-    //let foodLoc = createVector(mouseX, mouseY);
-    //circle(newFoods[f].x, newFoods[f].y, 17);
-
-    newFood = new Food(mouseX,mouseY,17);
+    newFood = new Food(mouseX,mouseY,random(10,20));
     newFoods.push(newFood);
   }
   console.log(newFoods);

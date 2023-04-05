@@ -2,11 +2,14 @@ class Food{
     constructor(_x,_y,_r){
         this.location = new createVector(_x,_y);
         this.r = _r;
-        this.color = color(255, 100, 100);
+        this.color = color(255, 255, 0);
     }
 
     display(){
         fill(this.color);
+        //strokeWeight(2);
+        //stroke(255,0,0,100);
+        noStroke();
         circle(this.location.x,this.location.y,this.r);
     }
 
