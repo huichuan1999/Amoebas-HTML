@@ -12,6 +12,8 @@ class NoiseCircle {
     this.desired = new createVector(0, 0);
     this.friction = new createVector(0, 0);
     this.speedLimit = random(1, this.br);
+
+    this.creatureState = "hungry";
   }
 
   findFood(x, y) { //return a bool, whether the food is eaten
@@ -21,7 +23,7 @@ class NoiseCircle {
     let direction = p5.Vector.sub(this.desired, this.location); // gets vector between these two points
 
     // mag / magnitude is the length of the distance between the two points
-    if (direction.mag() < this.br) {
+    if (direction.mag() < this.br*2) {
       return true; //stops moving as it returns before adding direction to velocity below
 
     }
@@ -48,9 +50,9 @@ class NoiseCircle {
     return false;
   }
 
-  // moveToFood() {
-
-  // }
+  changeState(newState) {
+    this.creatureState = newState;
+  }
 
   firction() {
     //if(this.moveToFood){

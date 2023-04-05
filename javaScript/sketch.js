@@ -23,7 +23,7 @@ let clearing = false;
 
 let hungry = 0;
 let full = 1;
-let creatureState = hungry;
+//let creatureState = "hungry";
 
 let canvas;
 let button;
@@ -64,41 +64,41 @@ function draw() {
 
   for (let i = 0; i < noiseCircles.length; i++) {
     noiseCircles[i].Draw(vol);
-    //noiseCircles[i].Draw(5);
     noiseCircles[i].crawling();
     noiseCircles[i].bouncing();
 
     for (let f = 0; f < newFoods.length; f++) {
+      newFoods[f].display();
+
       if (noiseCircles[i].findFood(newFoods[f].location.x, newFoods[f].location.y)) {
         //when it eat, it become bigger HUNGRY // 在这里执行生物处于饥饿状态时的操作
-        //noiseCircles[i].firction();//减速
-        console.log("Arrived");
-        noiseCircles[i].br += 1; //吃东西 变大
 
-            //the scale limit   EAT THE FOOD
-            if(noiseCircles[i].br > 20){ 
-              noiseCircles[i].br = 20;
-              creatureState = full;
-            }
-      }
-      else if (creatureState == full) {
-        // 在这里执行生物处于饱食状态时的操作 
-        //returning to hungry state 返回饥饿状态
-        if (noiseCircles[i].br >= 7) {
-          noiseCircles[i].br -= 5;
-          noiseCircles[i].changeColor(color(255,170));//change the core color
-          noiseCircles[i].crawling();
-        }else {
-          creatureState = hungry;
-     //     noiseCircles[i].crawling();
+        console.log("Arrived");
+        noiseCircles[i].br += 0.1; //吃东西 变大
+
+        //the scale limit   EAT THE FOOD
+        if (noiseCircles[i].br > 10) {
+          noiseCircles[i].br = 10;
+          noiseCircles[i].changeState("full");
         }
       }
-      else if(creatureState == hungry){
-          //noiseCircles[i].crawling();
-      }
-
-      //   draw food
-      newFoods[f].display();
+    }
+    if (noiseCircles[i].creatureState == "full") {
+      console.log("i am full");
+      if (noiseCircles[i].br >= 1) { //returning to hungry state 
+        noiseCircles[i].br -= 0.1;
+        noiseCircles[i].changeColor(color(255, 170));//change the core color
+        noiseCircles[i].crawling();
+        console.log("i am being small");
+      } 
+    }
+    else{
+        noiseCircles[i].changeState("hungry");
+        console.log("i am hungry");
+        //noiseCircles[i].changeColor(color(255, 170));
+    }
+    if (noiseCircles[i].creatureState == "hungry") {
+      //noiseCircles[i].changeColor(color(255, 170));
     }
 
     //communication
@@ -142,7 +142,7 @@ function mousePressed() {
 
 function pressOnCanvas() {
   if (mouseX < width && mouseY < height) {
-    newFood = new Food(mouseX,mouseY,random(10,20));
+    newFood = new Food(mouseX, mouseY, random(10, 20));
     newFoods.push(newFood);
   }
   console.log(newFoods);
@@ -153,6 +153,9 @@ function handleButtonPress() {
     newFoods.pop();
     clearing = true;
   }
+  // for (let i = 0; i < noiseCircles.length; i++) {
+  //   noiseCircles[i].br = noiseCircles[i].init_br;
+  // }
 }
 
 function addGUI() {
