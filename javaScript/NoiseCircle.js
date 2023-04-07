@@ -1,7 +1,6 @@
 class NoiseCircle {
   constructor(_x, _y, _br, zoffUpdate, noiseMax) {
     this.location = new createVector(_x, _y);
-    //the basic r
     this.br = _br;
     this.color = color(27, 89, 31);
     this.coreColor = color(255, 0, 0);
@@ -9,11 +8,58 @@ class NoiseCircle {
     this.zoffUpdate = zoffUpdate;
     this.noiseMax = noiseMax;
 
+    this.originalSize = this.br; // 记录初始大小
     this.desired = new createVector(0, 0);
     this.friction = new createVector(0, 0);
-    this.speedLimit = random(1, this.br);
+    this.speedLimit = random(1, this.originalSize);
 
     this.creatureState = "hungry";
+    this.hungryThreshold = 3;
+    this.fullThreshold = 5;
+
+    this.lastEatTime = millis();
+
+    this.timeThresholds = {
+      hungryToFull: 5000, // 从饥饿到饱食
+      fullToHungry: 10000 // 从饱食到饥饿
+    }
+    this.checkState = function() {
+      const currentTime = millis();
+      const timeSinceLastEat = currentTime - this.lastEatTime;
+
+      if (this.state === 'hungry') {
+        if (timeSinceLastEat >= this.timeThresholds.hungryToFull) {
+          this.state = 'full';
+          this.lastEatTime = currentTime;
+        }
+      } else if (this.state === 'full') {
+        if (timeSinceLastEat >= this.timeThresholds.fullToHungry) {
+          this.state = 'hungry';
+          this.lastEatTime = currentTime;
+        }
+      }
+    }
+  }
+
+  update() {
+    // 更新生物大小和状态
+    if (this.creatureState === 'hungry' && this.br >= this.fullThreshold) {
+      this.changeState('full');
+    } else if (this.creatureState === 'full' && this.br <= this.hungryThreshold) {
+      this.changeState('hungry');
+    }
+
+    // 缩小到初始大小
+    if (this.creatureState === 'full' && this.br > this.originalSize) {
+      this.br -= 0.1;
+    }
+
+    // 判断生物状态
+    if (this.br < this.hungryThreshold) {
+      this.changeState('hungry');
+    } else if (this.br > this.fullThreshold) {
+      this.changeState('full');
+    }
   }
 
   findFood(x, y) { //return a bool, whether the food is eaten
@@ -25,7 +71,6 @@ class NoiseCircle {
     // mag / magnitude is the length of the distance between the two points
     if (direction.mag() < this.br*2) {
       return true; //stops moving as it returns before adding direction to velocity below
-
     }
 
     //only move if they are close to the target x & y locations
@@ -34,8 +79,8 @@ class NoiseCircle {
       this.velocity.add(direction);
       //crawling zigzaggy
       let angle = noise(this.location.x / 500, this.location.y / 500, frameCount / 20) * TWO_PI * 2; //0-2PI
-      this.location.x += this.velocity.x * cos(angle) / 3;
-      this.location.y += this.velocity.y * sin(angle) / 3;
+      this.location.x += this.velocity.x * sin(angle)*5;
+      this.location.y += this.velocity.y * cos(angle)*5;
 
       this.friction.x = this.velocity.x * -1;
       this.friction.y = this.velocity.y * -1;

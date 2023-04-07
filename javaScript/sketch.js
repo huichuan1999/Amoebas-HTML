@@ -40,7 +40,7 @@ function setup() {
     let noiseMax1 = random(0, 1.5);
 
     noiseCircles[i] = new NoiseCircle(random(width), random(height),
-      random(0.2, 1.2),
+      random(0.2, 1.2),// the original size
       zoffUpdate1, noiseMax1);
   }
   addGUI();
@@ -64,42 +64,39 @@ function draw() {
     noiseCircles[i].Draw(vol);
     noiseCircles[i].crawling();
     noiseCircles[i].bouncing();
+    
+    //managing the state changing
+    let currentSize = noiseCircles[i].br;
+    let hungryThreshold = 2;
+    let fullThreshold = 5;
+    //let originalSize = noiseCircles[i].originalSize;
+    
+    if (currentSize < hungryThreshold) {
+      noiseCircles[i].changeState("hungry");
+    } else if (currentSize >= fullThreshold) {
+      noiseCircles[i].changeState("full");
+    }
+  
+    if (noiseCircles[i].creatureState == "full") {
+      console.log("i am full");
+      if (currentSize >= noiseCircles[i].originalSize) {
+        noiseCircles[i].br -= 0.2;
+        noiseCircles[i].changeColor(color(255,170,170,128));
+        noiseCircles[i].crawling();
+      }
+    }
 
     for (let f = 0; f < newFoods.length; f++) {
       newFoods[f].display();
 
       if (noiseCircles[i].findFood(newFoods[f].location.x, newFoods[f].location.y)) {
         //when it eat, it become bigger HUNGRY // 在这里执行生物处于饥饿状态时的操作
-
         //console.log("Arrived");
         noiseCircles[i].br += 0.1; //吃东西 变大
-
-        //the scale limit   EAT THE FOOD
-        if (noiseCircles[i].br > 7) {
-          noiseCircles[i].br = 7;
-          noiseCircles[i].changeState("full");
-        }
-        else{
-          noiseCircles[i].changeState("hungry");
-        }
       }
     }
-    if (noiseCircles[i].creatureState == "full") {
-      console.log("i am full");
-      if (noiseCircles[i].br >= 1) { //returning to hungry state 
-        noiseCircles[i].br -= 0.2;
-        noiseCircles[i].changeColor(color(255, 170));//change the core color
-        noiseCircles[i].crawling();
-        //console.log("i am being small");
-      } 
-    }
-    else{
-        noiseCircles[i].changeState("hungry");
-       //noiseCircles[i].changeColor(color(255, 170));
-    }
-    if (noiseCircles[i].creatureState == "hungry") {
-      //noiseCircles[i].changeColor(color(255, 170));
-    }
+    
+    
 
     //communication
     let overlapping = false;
