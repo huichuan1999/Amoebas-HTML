@@ -24,9 +24,10 @@ canvas {
 }
 
 #sketch-container {
-  position: relative;
+  position:relative;
+  /* top:300px; */
   width: 100%;
-
+  z-index:1;
 }
 
 #gui-container {
@@ -43,4 +44,26 @@ canvas {
   margin: 10px 0;
   box-sizing: border-box;
   background-color: rgb(255, 255, 255, 0.7);
+}
+
+#slider-container{
+  display: flex;
+  flex-direction: row;
+
+  position: fixed;
+  top:10px;
+  left: 10px;
+  z-index: 100;
+  width: auto;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px 0;
+  box-sizing: border-box;
+  background-color: rgb(255, 255, 255, 0.7);
+
+}
+
+#color-picker {
+  position: absolute;
+  z-index: 10; /* 将 z-index 值设置为 10，比 canvas 更高 */
 }

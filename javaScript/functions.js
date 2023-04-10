@@ -7,7 +7,6 @@ function randomPoints() {
     ellipse(random(width), random(height), random(2, width));
 }
 
-
 function soundThreshod() {
   let vol = mic.getLevel();
   let threshold1 = 0.03;

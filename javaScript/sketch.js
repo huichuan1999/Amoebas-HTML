@@ -1,7 +1,7 @@
-//Egg Amoebas
+//Amoebas - HTML
 //1-14-2023,Huichuan Wang
 /*
-It is a array of amoebas shapes like fried eggs, so I named it egg amoeba.
+It is a array of amoebas shapes like fried eggs, so at first I named it egg amoeba.
 I want to show it like real amoebas crawling zigzaggy. It will react to your sound, like a biological stress response. They also would like to communicate to each other,when they get close they will change color and concat together, exchange pheromones.
 When you make a sound, yellow dots are generated at random positions, and their radius is your volume.When your sound is higher than the threshold, the background change.
 */
@@ -48,6 +48,16 @@ function setup() {
       zoffUpdate1, noiseMax1);
   }
   addGUI();
+
+  // // 在 JS 文件中创建取色器 div 元素
+  // let colorPickerDiv = createDiv('');
+  // colorPickerDiv.id('color-picker');
+
+  // // 创建取色器实例
+  // const pickr = Pickr.create({
+  //   el: '#color-picker',
+  //   theme: 'classic',
+  // });
 
 }
 
@@ -158,7 +168,7 @@ function pressOnCanvas() {
     newFoods.push(newFood);
     clearing = false;
   }
-  console.log(newFoods);
+  //console.log(newFoods);
 }
 
 function addGUI() {
