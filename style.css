@@ -13,8 +13,10 @@ canvas {
 .button {
   background-color: rgb(255, 255, 255, 0.7);
   border: dotted 2px;
-  color: cornflowerblue;
+  border-radius: 20px;
+  color: rgb(0, 50, 50);
   padding: 10px 17px;
+  margin-right: 10px;
   text-align: center;
   display: block;
   margin: 0 auto;
@@ -34,7 +36,7 @@ canvas {
   flex-direction: row;
 
   position: fixed;
-  bottom: 10px;
+  bottom: 0px;
   left: 10px;
   z-index: 100;
   width: auto;
@@ -77,10 +79,12 @@ canvas {
   
   #gui-container.button {
     width: 33.33%;
+    margin-right: 10px;
   }
 
   .button {
     font-size: 22px;
+    margin-right: 10px;
   }
   
   #sketch-container {
@@ -95,7 +99,7 @@ canvas {
     flex-direction: row;
     justify-content: space-between;
 
-    bottom: 10px;
+    bottom: 0px;
     left: 50%;
     transform: translateX(-50%);
     width:100%;
