@@ -24,13 +24,15 @@ let clearing = false;
 //let creatureState = "hungry";
 
 let canvas;
-let button;
+let buttonClear;
 
 let disableDrawing = false;
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("sketch-container");
+
+  foodPG = createGraphics(windowWidth,windowHeight);
 
   mic = new p5.AudioIn();
   mic.start();
@@ -45,15 +47,19 @@ function setup() {
   }
   addGUI();
 
-  button.mouseOut(() => {
-    console.log('Mouse left button');
+  buttonClear.mouseOut(() => {
+    console.log('Mouse left buttonClear');
   });
 
-  button.mouseOver(disableDrawingOnCanvas);
-  button.mouseOut(enableDrawingOnCanvas);
+  buttonClear.mouseOver(disableDrawingOnCanvas);
+  buttonClear.mouseOut(enableDrawingOnCanvas);
+
+
 }
 
 function draw() {
+
+  foodPG.clear();//make the food PG background transparent
 
   let vol = mic.getLevel() * 5;
 
@@ -64,40 +70,61 @@ function draw() {
     noiseCircles[i].Draw(vol);
     noiseCircles[i].crawling();
     noiseCircles[i].bouncing();
-    
+
+    // noiseCircles[i].checkState(); // 更新生物状态
+
+    // if (noiseCircles[i].isFull()) { // 生物饱食时停止寻找食物
+    //   continue;
+    // }
+
+    // for (let f = 0; f < newFoods.length; f++) {
+      
+
+    //   if (noiseCircles[i].findFood(newFoods[f].location.x, newFoods[f].location.y)) {
+    //     // 当生物处于饥饿状态时，吃到食物变大，并记录进食时间
+    //     noiseCircles[i].br += 0.1;
+    //     noiseCircles[i].lastEatTime = millis();
+
+    //     // 吃到食物后生物重新开始寻找食物
+    //     noiseCircles[i].findFood(newFoods[f].location.x, newFoods[f].location.y);
+    //   }
+    //   newFoods[f].display();
+    // }
+//-------------------------------
     //managing the state changing
     let currentSize = noiseCircles[i].br;
     let hungryThreshold = 2;
     let fullThreshold = 5;
     //let originalSize = noiseCircles[i].originalSize;
-    
+
     if (currentSize < hungryThreshold) {
-      noiseCircles[i].changeState("hungry");
+      //noiseCircles[i].changeState("hungry");
     } else if (currentSize >= fullThreshold) {
       noiseCircles[i].changeState("full");
     }
-  
+
     if (noiseCircles[i].creatureState == "full") {
-      console.log("i am full");
-      if (currentSize >= noiseCircles[i].originalSize) {
-        noiseCircles[i].br -= 0.2;
+      //console.log("i am full");
+      if (currentSize > noiseCircles[i].originalSize) {
+        noiseCircles[i].br -= 0.05;
         noiseCircles[i].changeColor(color(255,170,170,128));
         noiseCircles[i].crawling();
       }
     }
 
     for (let f = 0; f < newFoods.length; f++) {
-      newFoods[f].display();
-
-      if (noiseCircles[i].findFood(newFoods[f].location.x, newFoods[f].location.y)) {
+      
+      clearing = false;
+      if (!clearing && noiseCircles[i].findFood(newFoods[f].location.x, newFoods[f].location.y)) {
         //when it eat, it become bigger HUNGRY // 在这里执行生物处于饥饿状态时的操作
         //console.log("Arrived");
         noiseCircles[i].br += 0.1; //吃东西 变大
+        break;
       }
+      newFoods[f].display();
+      //break;
     }
-    
-    
-
+    console.log(clearing);
     //communication
     let overlapping = false;
     for (let j = 0; j < noiseCircles.length; j++) {
@@ -134,6 +161,7 @@ function enableDrawingOnCanvas() {
 function mousePressed() {
   if (!disableDrawing) {
     pressOnCanvas();
+    
   }
 }
 
@@ -141,6 +169,7 @@ function pressOnCanvas() {
   if (mouseX < width && mouseY < height) {
     newFood = new Food(mouseX, mouseY, random(10, 20));
     newFoods.push(newFood);
+    clearing = false;
   }
   console.log(newFoods);
 }
@@ -156,10 +185,10 @@ function handleButtonPress() {
 }
 
 function addGUI() {
-  button = createButton("CLEAR");
-  button.addClass("button");
-  button.parent("gui-container");
+  buttonClear = createButton("CLEAR");
+  buttonClear.addClass("button");
+  buttonClear.parent("gui-container");
   //Adding a mouse pressed event listener to the button
-  button.mousePressed(handleButtonPress);
+  buttonClear.mousePressed(handleButtonPress);
 }
 

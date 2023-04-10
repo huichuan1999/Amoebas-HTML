@@ -160,3 +160,20 @@ if (noiseCircles[i].getState() == "full") {
 }
 
 //-------------------------------------------------------------------------------------
+let foodFound = false;
+
+for (let i = 0; i < noiseCircles.length; i++) {
+if (noiseCircles[i].findFood(newFoods[f].location.x, newFoods[f].location.y)) {
+//when it eat, it become bigger HUNGRY // 在这里执行生物处于饥饿状态时的操作
+//console.log("Arrived");
+noiseCircles[i].br += 0.1; //吃东西 变大
+foodFound = true;
+break;
+}
+}
+
+if (foodFound) {
+newFoods.splice(f, 1); //remove the food from the array
+f--;
+break;
+}

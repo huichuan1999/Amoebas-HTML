@@ -8,8 +8,9 @@ class NoiseCircle {
     this.zoffUpdate = zoffUpdate;
     this.noiseMax = noiseMax;
 
-    this.originalSize = this.br; // 记录初始大小
-    this.desired = new createVector(0, 0);
+    this.originalSize = this.br; // the basic core radius
+    this.desired = new createVector(0,0); //desired the food location
+    //this.direction = new createVector(random(-1, 1), random(-1, 1)).normalize();
     this.friction = new createVector(0, 0);
     this.speedLimit = random(1, this.originalSize);
 
@@ -18,27 +19,37 @@ class NoiseCircle {
     this.fullThreshold = 5;
 
     this.lastEatTime = millis();
+    this.maxSize = 6;
 
     this.timeThresholds = {
-      hungryToFull: 5000, // 从饥饿到饱食
+      hungryToFull: 3000, // 从饥饿到饱食
       fullToHungry: 10000 // 从饱食到饥饿
     }
-    this.checkState = function() {
+    this.checkState = function () {
       const currentTime = millis();
       const timeSinceLastEat = currentTime - this.lastEatTime;
 
-      if (this.state === 'hungry') {
+      if (this.br >= this.maxSize) {
+        this.creatureState = "full";
+      }
+
+      if (this.creatureState === 'hungry') {
         if (timeSinceLastEat >= this.timeThresholds.hungryToFull) {
-          this.state = 'full';
+          this.creatureState = 'full';
           this.lastEatTime = currentTime;
         }
-      } else if (this.state === 'full') {
+      } else if (this.creatureState === 'full') {
         if (timeSinceLastEat >= this.timeThresholds.fullToHungry) {
-          this.state = 'hungry';
+          this.creatureState = 'hungry';
           this.lastEatTime = currentTime;
         }
       }
     }
+    this.isFull = function () {
+      return this.creatureState === 'full';
+    }
+
+
   }
 
   update() {
@@ -62,25 +73,26 @@ class NoiseCircle {
     }
   }
 
-  findFood(x, y) { //return a bool, whether the food is eaten
+  findFood(x, y) { //return a bool, whether they find the food
 
     this.desired.x = x;
     this.desired.y = y;
     let direction = p5.Vector.sub(this.desired, this.location); // gets vector between these two points
 
     // mag / magnitude is the length of the distance between the two points
-    if (direction.mag() < this.br*2) {
+    if (direction.mag() < this.br * 5) {
       return true; //stops moving as it returns before adding direction to velocity below
     }
 
     //only move if they are close to the target x & y locations
-    if (direction.mag() < 30) {
+    if (direction.mag() < 50) {
       direction.normalize(); //normalize gives us the unit vector of length 1 (i.e. just the direction )
       this.velocity.add(direction);
+
       //crawling zigzaggy
       let angle = noise(this.location.x / 500, this.location.y / 500, frameCount / 20) * TWO_PI * 2; //0-2PI
-      this.location.x += this.velocity.x * sin(angle)*5;
-      this.location.y += this.velocity.y * cos(angle)*5;
+      //this.velocity = p5.Vector.fromAngle(angle);
+      
 
       this.friction.x = this.velocity.x * -1;
       this.friction.y = this.velocity.y * -1;
@@ -89,14 +101,20 @@ class NoiseCircle {
       this.velocity.add(this.friction);
 
       this.velocity.limit(this.speedLimit);
+      this.location.x += this.velocity.x * sin(angle) * 5;
+      this.location.y += this.velocity.y * cos(angle) * 5;
       this.location.add(this.velocity);
-
     }
     return false;
   }
 
   changeState(newState) {
     this.creatureState = newState;
+    // if (newState === "full") {
+    //   this.br = min(this.br, this.maxSize); // 限制半径大小不超过最大值
+    // }
+    // this.creatureState = newState;
+    // this.stateStart = millis();
   }
 
   firction() {
@@ -116,15 +134,32 @@ class NoiseCircle {
   crawling() {
 
     let angle = noise(this.location.x / 500, this.location.y / 500, frameCount / 20) * TWO_PI * 2; //0-2PI
+
+    // this.velocity = p5.Vector.fromAngle(angle);
+    // //this.velocity.mult(3);
+
+    // this.location.add(this.velocity);
+
+    // let direction = p5.Vector.fromAngle(angle);
+    // direction.mult(3);
+
+    // this.location.add(direction);
+
+    //let randomAngle = random(TWO_PI)/100;
+    //angle += randomAngle;
     this.location.x += this.velocity.x * cos(angle) * 3;
     this.location.y += this.velocity.y * sin(angle) * 3;
-    //this.location.add(this.velocity);
+    
   }
 
   bouncing() {
     //bouncing
     if (this.location.x < 0 || this.location.x > width) this.velocity.x *= -1;
     if (this.location.y < 0 || this.location.y > height) this.velocity.y *= -1;
+    //this.direction.normalize();
+    //this.velocity.mult(this.direction);
+    ///this.location.add(this.velocity);
+
   }
 
 
