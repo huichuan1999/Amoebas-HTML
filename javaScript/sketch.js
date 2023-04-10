@@ -149,6 +149,8 @@ function draw() {
     }
   }
 
+  image(foodPG,0,0);
+
 }
 
 function disableDrawingOnCanvas() {
@@ -167,7 +169,7 @@ function mousePressed() {
 
 function pressOnCanvas() {
   if (mouseX < width && mouseY < height) {
-    newFood = new Food(mouseX, mouseY, random(10, 20));
+    newFood = new Food(mouseX, mouseY, random(10, 20),foodPG);
     newFoods.push(newFood);
     clearing = false;
   }
