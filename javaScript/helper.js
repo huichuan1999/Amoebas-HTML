@@ -175,5 +175,5 @@ break;
 if (foodFound) {
 newFoods.splice(f, 1); //remove the food from the array
 f--;
-break;
+//break;
 }

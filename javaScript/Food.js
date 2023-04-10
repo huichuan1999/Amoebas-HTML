@@ -1,9 +1,11 @@
 class Food{
+    static count = 0;
     constructor(_x,_y,_r,canvas){
         this.location = new createVector(_x,_y);
         this.r = _r;
         this.color = color(255, 255, 0);
         this.canvas = canvas;
+        this.id = ++Food.count;
     }
 
     display(){

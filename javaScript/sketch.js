@@ -25,6 +25,7 @@ let clearing = false;
 
 let canvas;
 let buttonClear;
+let buttonAddACreature;
 
 let disableDrawing = false;
 
@@ -32,7 +33,8 @@ function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("sketch-container");
 
-  foodPG = createGraphics(windowWidth,windowHeight);
+  foodPG = createGraphics(windowWidth, windowHeight);
+  foodPG.parent("sketch-container");
 
   mic = new p5.AudioIn();
   mic.start();
@@ -47,20 +49,20 @@ function setup() {
   }
   addGUI();
 
-  buttonClear.mouseOut(() => {
-    console.log('Mouse left buttonClear');
-  });
-
+  buttonClear.mouseOut(() => { console.log('Mouse left buttonClear'); });
   buttonClear.mouseOver(disableDrawingOnCanvas);
   buttonClear.mouseOut(enableDrawingOnCanvas);
+
+  buttonAddACreature.mouseOut(() => { console.log('Mouse left buttonClear'); });
+  buttonAddACreature.mouseOver(disableDrawingOnCanvas);
+  buttonAddACreature.mouseOut(enableDrawingOnCanvas);
 
 
 }
 
 function draw() {
-
-  foodPG.clear();//make the food PG background transparent
-
+  foodPG.clear();
+  foodPG.background(0, 0, 0, 0);
   let vol = mic.getLevel() * 5;
 
   if (frameCount % 4 == 0) randomPoints();
@@ -78,7 +80,7 @@ function draw() {
     // }
 
     // for (let f = 0; f < newFoods.length; f++) {
-      
+
 
     //   if (noiseCircles[i].findFood(newFoods[f].location.x, newFoods[f].location.y)) {
     //     // 当生物处于饥饿状态时，吃到食物变大，并记录进食时间
@@ -90,7 +92,7 @@ function draw() {
     //   }
     //   newFoods[f].display();
     // }
-//-------------------------------
+    //-------------------------------
     //managing the state changing
     let currentSize = noiseCircles[i].br;
     let hungryThreshold = 2;
@@ -106,14 +108,15 @@ function draw() {
     if (noiseCircles[i].creatureState == "full") {
       //console.log("i am full");
       if (currentSize > noiseCircles[i].originalSize) {
+
         noiseCircles[i].br -= 0.05;
-        noiseCircles[i].changeColor(color(255,170,170,128));
+        noiseCircles[i].changeColor(color(255, 170, 170, 128));
         noiseCircles[i].crawling();
       }
     }
 
     for (let f = 0; f < newFoods.length; f++) {
-      
+
       clearing = false;
       if (!clearing && noiseCircles[i].findFood(newFoods[f].location.x, newFoods[f].location.y)) {
         //when it eat, it become bigger HUNGRY // 在这里执行生物处于饥饿状态时的操作
@@ -121,6 +124,7 @@ function draw() {
         noiseCircles[i].br += 0.1; //吃东西 变大
         break;
       }
+
       newFoods[f].display();
       //break;
     }
@@ -149,7 +153,7 @@ function draw() {
     }
   }
 
-  image(foodPG,0,0);
+  image(foodPG, 0, 0);
 
 }
 
@@ -163,27 +167,38 @@ function enableDrawingOnCanvas() {
 function mousePressed() {
   if (!disableDrawing) {
     pressOnCanvas();
-    
   }
 }
 
 function pressOnCanvas() {
   if (mouseX < width && mouseY < height) {
-    newFood = new Food(mouseX, mouseY, random(10, 20),foodPG);
+    newFood = new Food(mouseX, mouseY, random(10, 20), foodPG);
     newFoods.push(newFood);
     clearing = false;
   }
   console.log(newFoods);
 }
 
-function handleButtonPress() {
+function buttonClearPress() {
   if (newFoods.length > 0) {
+    // Remove the last added food from 'foods' array
+    let foodIdToRemove = newFoods[newFoods.length - 1].id;
+
     newFoods.pop();
     clearing = true;
+    //foodPG.clear();
+    foodPG.background(0, 0, 0, 0);
+
+    newFoods = newFoods.filter(newFood => newFood.id !== foodIdToRemove);
   }
-  // for (let i = 0; i < noiseCircles.length; i++) {
-  //   noiseCircles[i].br = noiseCircles[i].init_br;
-  // }
+}
+
+function buttonAddACreaturePress() {
+  let r2 = random(0.2, 1.2);
+  let zoffUpdate2 = random(0.05, 0.0001);
+  let noiseMax2 = random(0, 1.5);
+  let nc = new NoiseCircle(random(width), random(height), r2, zoffUpdate2, noiseMax2);
+  noiseCircles.push(nc);
 }
 
 function addGUI() {
@@ -191,6 +206,12 @@ function addGUI() {
   buttonClear.addClass("button");
   buttonClear.parent("gui-container");
   //Adding a mouse pressed event listener to the button
-  buttonClear.mousePressed(handleButtonPress);
+  buttonClear.mousePressed(buttonClearPress);
+
+  buttonAddACreature = createButton("Add A Creature");
+  buttonAddACreature.addClass("button");
+  buttonAddACreature.parent("gui-container");
+  //Adding a mouse pressed event listener to the button
+  buttonAddACreature.mousePressed(buttonAddACreaturePress);
 }
 
