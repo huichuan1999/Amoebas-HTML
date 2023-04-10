@@ -19,7 +19,7 @@ canvas {
   display: block;
   margin: 0 auto;
   font-size: 20px;
-  min-width: 200px;
+  min-width: 100px;
   cursor: pointer;
 }
 
@@ -81,7 +81,6 @@ canvas {
 
   .button {
     font-size: 22px;
-    min-width: 200px;
   }
   
   #sketch-container {
@@ -99,6 +98,7 @@ canvas {
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
+    width:100%;
   }
 
 }

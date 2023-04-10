@@ -7,10 +7,10 @@ let URLS = [
   `${GHPATH}/css/style.css`,
   `${GHPATH}/javaScript/libs/p5.js`,
   `${GHPATH}/javaScript/libs/p5.sound.min.js`,
-  `${GHPATH}/javaScript/sketch.js`
-  `${GHPATH}/javaScript/NoiseCircle.js`
-  `${GHPATH}/javaScript/functions.js`
-  `${GHPATH}/javaScript/Food.js`
+  `${GHPATH}/javaScript/sketch.js`,
+  `${GHPATH}/javaScript/NoiseCircle.js`,
+  `${GHPATH}/javaScript/functions.js`,
+  `${GHPATH}/javaScript/Food.js`,
   `${GHPATH}/javaScript/ButtonAndGUI.js`
 ]
 
