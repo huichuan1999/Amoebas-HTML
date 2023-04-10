@@ -9,21 +9,20 @@ When you make a sound, yellow dots are generated at random positions, and their 
 //noise loop references:https://editor.p5js.org/codingtrain/sketches/sy1p1vnQn
 //mic threshold : https://editor.p5js.org/p5/sketches/Sound:_Mic_Threshold
 //particle system: https://p5js.org/examples/simulate-particles.html
+//Genetic Algorithms and Evolutionary Computing :https://natureofcode.com/book/chapter-9-the-evolution-of-code/ 
 
 let mic;
 let phase = 0;
 let zoff = 0;
 
 let noiseCircles = [];
-
 let newFoods = [];
 
-let feeding = false;
 let clearing = false;
 
-//let creatureState = "hungry";
-
 let canvas;
+let foodPG;
+
 let buttonClear;
 let buttonAddACreature;
 
@@ -48,15 +47,6 @@ function setup() {
       zoffUpdate1, noiseMax1);
   }
   addGUI();
-
-  buttonClear.mouseOut(() => { console.log('Mouse left buttonClear'); });
-  buttonClear.mouseOver(disableDrawingOnCanvas);
-  buttonClear.mouseOut(enableDrawingOnCanvas);
-
-  buttonAddACreature.mouseOut(() => { console.log('Mouse left buttonClear'); });
-  buttonAddACreature.mouseOver(disableDrawingOnCanvas);
-  buttonAddACreature.mouseOut(enableDrawingOnCanvas);
-
 
 }
 
@@ -124,11 +114,9 @@ function draw() {
         noiseCircles[i].br += 0.1; //吃东西 变大
         break;
       }
-
       newFoods[f].display();
-      //break;
     }
-    console.log(clearing);
+    //console.log(clearing);
     //communication
     let overlapping = false;
     for (let j = 0; j < noiseCircles.length; j++) {
@@ -155,13 +143,6 @@ function draw() {
 
   image(foodPG, 0, 0);
 
-}
-
-function disableDrawingOnCanvas() {
-  disableDrawing = true;
-}
-function enableDrawingOnCanvas() {
-  disableDrawing = false;
 }
 
 function mousePressed() {
@@ -202,16 +183,7 @@ function buttonAddACreaturePress() {
 }
 
 function addGUI() {
-  buttonClear = createButton("CLEAR");
-  buttonClear.addClass("button");
-  buttonClear.parent("gui-container");
-  //Adding a mouse pressed event listener to the button
-  buttonClear.mousePressed(buttonClearPress);
-
-  buttonAddACreature = createButton("Add A Creature");
-  buttonAddACreature.addClass("button");
-  buttonAddACreature.parent("gui-container");
-  //Adding a mouse pressed event listener to the button
-  buttonAddACreature.mousePressed(buttonAddACreaturePress);
+  buttonClear = new Button("Clear A Food", buttonClearPress);
+  buttonAddACreature = new Button("Add A Creature", buttonAddACreaturePress);
 }
 

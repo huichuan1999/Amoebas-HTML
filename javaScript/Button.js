@@ -1,18 +1,25 @@
-class Button{
-    constructor(x, y, w, h, text, onClick) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-        this.text = text;
+class Button {
+    constructor(label, onClick) {
+        this.label = label;
         this.onClick = onClick;
+
+        this.button = createButton(this.label);
+        this.button.addClass("button");
+        this.button.parent("gui-container");
+
+        this.button.mousePressed(this.onClick);
+
+        this.button.mouseOver(this.disableDrawingOnCanvas.bind(this));
+        this.button.mouseOut(this.enableDrawingOnCanvas.bind(this));
+
     }
 
-    display() {
-        rect(this.x, this.y, this.w, this.h);
-        textSize(20);
-        textAlign(CENTER, CENTER);
-        text(this.text, this.x + this.w / 2, this.y + this.h / 2);
-      }
+    disableDrawingOnCanvas() {
+        disableDrawing = true;
+    }
+
+    enableDrawingOnCanvas() {
+        disableDrawing = false;
+    }
 
 }
