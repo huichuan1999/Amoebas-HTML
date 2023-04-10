@@ -38,3 +38,9 @@ function addAmoebas(x,y){
     let n = new NoiseCircle(x,y, r2, zoffUpdate2, noiseMax2);
     noiseCircles.push(n);
 }
+
+function removeAmoebas(){
+  if (noiseCircles.length>0){
+    noiseCircles.pop();
+  }
+}

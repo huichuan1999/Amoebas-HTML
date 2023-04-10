@@ -11,7 +11,6 @@ class Button {
 
         this.button.mouseOver(this.disableDrawingOnCanvas.bind(this));
         this.button.mouseOut(this.enableDrawingOnCanvas.bind(this));
-
     }
 
     disableDrawingOnCanvas() {
@@ -39,6 +38,10 @@ function buttonClearPress() {
 
 function buttonAddACreaturePress() {
     addAmoebas(random(width), random(height));
+}
+
+function buttonKillACreaturePress(){
+    removeAmoebas();
 }
 
 function RGBSlider() {

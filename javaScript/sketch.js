@@ -25,6 +25,8 @@ let foodPG;
 
 let buttonClear;
 let buttonAddACreature;
+let buttonKillACreature;
+
 let redSlider, greenSlider, blueSlider;
 
 let disableDrawing = false;
@@ -74,31 +76,10 @@ function draw() {
     noiseCircles[i].crawling();
     noiseCircles[i].bouncing();
 
-    // noiseCircles[i].checkState(); // 更新生物状态
-
-    // if (noiseCircles[i].isFull()) { // 生物饱食时停止寻找食物
-    //   continue;
-    // }
-
-    // for (let f = 0; f < newFoods.length; f++) {
-
-
-    //   if (noiseCircles[i].findFood(newFoods[f].location.x, newFoods[f].location.y)) {
-    //     // 当生物处于饥饿状态时，吃到食物变大，并记录进食时间
-    //     noiseCircles[i].br += 0.1;
-    //     noiseCircles[i].lastEatTime = millis();
-
-    //     // 吃到食物后生物重新开始寻找食物
-    //     noiseCircles[i].findFood(newFoods[f].location.x, newFoods[f].location.y);
-    //   }
-    //   newFoods[f].display();
-    // }
-    //-------------------------------
     //managing the state changing
     let currentSize = noiseCircles[i].br;
     let hungryThreshold = 2;
     let fullThreshold = 5;
-    //let originalSize = noiseCircles[i].originalSize;
 
     if (currentSize < hungryThreshold) {
       //noiseCircles[i].changeState("hungry");
@@ -174,7 +155,7 @@ function pressOnCanvas() {
 function addGUI() {
   buttonClear = new Button("Clear A Food", buttonClearPress);
   buttonAddACreature = new Button("Add A Creature", buttonAddACreaturePress);
-
-  RGBSlider();
+  buttonKillACreature = new Button("Kill A Creature", buttonKillACreaturePress);
+  //RGBSlider();
 }
 

@@ -23,10 +23,5 @@ class Food{
     changeColor(c){
         this.color = c;
     }
-    
-    isEaten(otherLocation,size){ //return a bool
-        let distance = this.location.dist(otherLocation);
-        return(distance<(this.size/s+sizs/2));
-    }
 
 }
