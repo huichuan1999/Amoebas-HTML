@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- meta viewport tag needed to make site responsive on mobile devices https://developer.mozilla.org/en-US/docs/Web/HTML/Viewport_meta_tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name='apple-mobile-web-app-capable' content='yes'/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!--add out webmanifest if we want this to run as a standalone app-->
+    <link rel="manifest" href="manifest.webmanifest">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -13,11 +22,19 @@
   </head>
   <body>
     <main>
-      <div id="color-picker"></div>
+      <!-- <div id="color-picker"></div> -->
       <div id = "sketch-container"></div>
       <div id="gui-container"></div>
       <!-- <div id="slider-container"></div> -->
     </main>
+    <script>
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker.register (
+          '/Amoebas-HTML/sw.js',
+          {scope: '/Amoebas-HTML/'}
+        )
+      }
+    </script>
     <script src="javaScript/sketch.js"></script>
       <script src="javaScript/NoiseCircle.js"></script>
       <script src="javaScript/functions.js"></script>

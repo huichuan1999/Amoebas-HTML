@@ -68,7 +68,7 @@ function draw() {
   foodPG.background(0, 0, 0, 0);
   let vol = mic.getLevel() * 5;
 
-  if (frameCount % 4 == 0) randomPoints();//the background color
+  if (frameCount % 2 == 0) randomPoints();//the background color
   //soundThreshod();
 
   for (let i = 0; i < noiseCircles.length; i++) {
@@ -92,7 +92,7 @@ function draw() {
       if (currentSize > noiseCircles[i].originalSize) {
 
         noiseCircles[i].br -= 0.05;
-        noiseCircles[i].changeColor(color(255, 170, 170, 128));
+        noiseCircles[i].changeColor(color(255, 128));
         noiseCircles[i].crawling();
       }
     }
