@@ -2,8 +2,7 @@ function randomPoints() {
     //stroke(255, 255, 180,30);
     //strokeWeight(1);
     noStroke();
-    //fill(0, random(120, 255), random(120, 255), random(100));
-    fill(0, random(0, 255), random(0, 255),10);
+    fill(0, random(0, 200), random(0, 200),10);
     ellipse(random(width), random(height), random(2, width));
 }
 
