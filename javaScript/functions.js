@@ -32,21 +32,10 @@ function updateBG() {
     rect(0, 0, width, height);
 }
 
-function addAmoebas(){
+function addAmoebas(x,y){
     let r2 = random(0.2, 1.2);
     let zoffUpdate2 = random(0.05, 0.0001);
     let noiseMax2 = random(0, 1.5);
-    let n = new NoiseCircle(mouseX, mouseY, r2, zoffUpdate2, noiseMax2);
+    let n = new NoiseCircle(x,y, r2, zoffUpdate2, noiseMax2);
     noiseCircles.push(n);
 }
-  
-// function updateFood(){
-//   for(let i = food.length-1; i >= 0 ; i--){
-//     fill(100);
-//     circle(food[i].x,food[i].y,food[i].d);
-//     food[i].y += 1;
-//     if(food[i].y > height){
-//       food.splice(i,1);//remove one from array at index i
-//     }
-//   }
-// }

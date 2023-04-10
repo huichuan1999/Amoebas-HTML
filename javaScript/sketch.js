@@ -25,6 +25,7 @@ let foodPG;
 
 let buttonClear;
 let buttonAddACreature;
+let redSlider, greenSlider, blueSlider;
 
 let disableDrawing = false;
 
@@ -55,7 +56,7 @@ function draw() {
   foodPG.background(0, 0, 0, 0);
   let vol = mic.getLevel() * 5;
 
-  if (frameCount % 4 == 0) randomPoints();
+  if (frameCount % 4 == 0) randomPoints();//the background color
   //soundThreshod();
 
   for (let i = 0; i < noiseCircles.length; i++) {
@@ -160,30 +161,10 @@ function pressOnCanvas() {
   console.log(newFoods);
 }
 
-function buttonClearPress() {
-  if (newFoods.length > 0) {
-    // Remove the last added food from 'foods' array
-    let foodIdToRemove = newFoods[newFoods.length - 1].id;
-
-    newFoods.pop();
-    clearing = true;
-    //foodPG.clear();
-    foodPG.background(0, 0, 0, 0);
-
-    newFoods = newFoods.filter(newFood => newFood.id !== foodIdToRemove);
-  }
-}
-
-function buttonAddACreaturePress() {
-  let r2 = random(0.2, 1.2);
-  let zoffUpdate2 = random(0.05, 0.0001);
-  let noiseMax2 = random(0, 1.5);
-  let nc = new NoiseCircle(random(width), random(height), r2, zoffUpdate2, noiseMax2);
-  noiseCircles.push(nc);
-}
-
 function addGUI() {
   buttonClear = new Button("Clear A Food", buttonClearPress);
   buttonAddACreature = new Button("Add A Creature", buttonAddACreaturePress);
+
+  RGBSlider();
 }
 
