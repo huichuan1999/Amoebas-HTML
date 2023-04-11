@@ -161,6 +161,7 @@ function addGUI() {
   buttonAddACreature = new Button("Add A Creature", buttonAddACreaturePress);
   buttonKillACreature = new Button("Kill A Creature", buttonKillACreaturePress);
   buttonRestart = new Button("Restart", buttonRestartPress);
+  //buttonRestart.parent("restart-button-container");
   //RGBSlider();
 }
 
