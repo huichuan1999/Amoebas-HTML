@@ -26,6 +26,7 @@ let foodPG;
 let buttonClear;
 let buttonAddACreature;
 let buttonKillACreature;
+let buttonRestart;
 
 let redSlider, greenSlider, blueSlider;
 
@@ -159,6 +160,7 @@ function addGUI() {
   buttonClear = new Button("Clear A Food", buttonClearPress);
   buttonAddACreature = new Button("Add A Creature", buttonAddACreaturePress);
   buttonKillACreature = new Button("Kill A Creature", buttonKillACreaturePress);
+  buttonRestart = new Button("Restart", buttonRestartPress);
   //RGBSlider();
 }
 

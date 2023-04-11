@@ -44,6 +44,10 @@ function buttonKillACreaturePress(){
     removeAmoebas();
 }
 
+function buttonRestartPress(){
+    location.reload();
+}
+
 function RGBSlider() {
 
     // Create sliders for each RGB component
