@@ -91,7 +91,7 @@ function draw() {
       //console.log("i am full");
       if (currentSize > noiseCircles[i].originalSize) {
 
-        noiseCircles[i].br -= 0.05;
+        noiseCircles[i].br -= 0.1;
         noiseCircles[i].changeColor(color(255, 128));
         noiseCircles[i].crawling();
       }
@@ -104,7 +104,10 @@ function draw() {
         //when it eat, it become bigger HUNGRY // 在这里执行生物处于饥饿状态时的操作
         //console.log("Arrived");
         noiseCircles[i].br += 0.1; //吃东西 变大
-        break;
+        if (noiseCircles[i].creatureState == "full") {
+          break;
+        }
+
       }
       newFoods[f].display();
     }
