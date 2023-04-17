@@ -18,33 +18,33 @@ class NoiseCircle {
     this.hungryThreshold = 3;
     this.fullThreshold = 5;
 
-    this.lastEatTime = millis();
-    this.maxSize = 6;
+    // this.lastEatTime = millis();
+    //this.maxSize = 6;
 
-    this.timeThresholds = {
-      hungryToFull: 3000, // 从饥饿到饱食
-      fullToHungry: 10000 // 从饱食到饥饿
-    }
-    this.checkState = function () {
-      const currentTime = millis();
-      const timeSinceLastEat = currentTime - this.lastEatTime;
+    // this.timeThresholds = {
+    //   hungryToFull: 3000, // 从饥饿到饱食
+    //   fullToHungry: 10000 // 从饱食到饥饿
+    // }
+    // this.checkState = function () {
+    //   const currentTime = millis();
+    //   const timeSinceLastEat = currentTime - this.lastEatTime;
 
-      if (this.br >= this.maxSize) {
-        this.creatureState = "full";
-      }
+    //   if (this.br >= this.maxSize) {
+    //     this.creatureState = "full";
+    //   }
 
-      if (this.creatureState === 'hungry') {
-        if (timeSinceLastEat >= this.timeThresholds.hungryToFull) {
-          this.creatureState = 'full';
-          this.lastEatTime = currentTime;
-        }
-      } else if (this.creatureState === 'full') {
-        if (timeSinceLastEat >= this.timeThresholds.fullToHungry) {
-          this.creatureState = 'hungry';
-          this.lastEatTime = currentTime;
-        }
-      }
-    }
+    //   if (this.creatureState === 'hungry') {
+    //     if (timeSinceLastEat >= this.timeThresholds.hungryToFull) {
+    //       this.creatureState = 'full';
+    //       this.lastEatTime = currentTime;
+    //     }
+    //   } else if (this.creatureState === 'full') {
+    //     if (timeSinceLastEat >= this.timeThresholds.fullToHungry) {
+    //       this.creatureState = 'hungry';
+    //       this.lastEatTime = currentTime;
+    //     }
+    //   }
+    // }
     this.isFull = function () {
       return this.creatureState === 'full';
     }

@@ -59,7 +59,7 @@ function draw() {
   foodPG.clear();
   foodPG.background(0, 0, 0, 0);
   vol = mic.getLevel() * 7;
-  console.log(vol);
+  //console.log(vol);
 
   if (frameCount % 2 == 0) randomPoints();//the background color
   //soundThreshod();
