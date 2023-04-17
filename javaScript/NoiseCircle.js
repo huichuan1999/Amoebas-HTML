@@ -53,19 +53,17 @@ class NoiseCircle {
   }
 
   update() {
-    // 更新生物大小和状态
+    
     if (this.creatureState === 'hungry' && this.br >= this.fullThreshold) {
       this.changeState('full');
     } else if (this.creatureState === 'full' && this.br <= this.hungryThreshold) {
       this.changeState('hungry');
     }
 
-    // 缩小到初始大小
     if (this.creatureState === 'full' && this.br > this.originalSize) {
       this.br -= 0.1;
     }
 
-    // 判断生物状态
     if (this.br < this.hungryThreshold) {
       this.changeState('hungry');
     } else if (this.br > this.fullThreshold) {
