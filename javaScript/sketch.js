@@ -12,6 +12,7 @@ When you make a sound, yellow dots are generated at random positions, and their 
 //Genetic Algorithms and Evolutionary Computing :https://natureofcode.com/book/chapter-9-the-evolution-of-code/ 
 
 let mic;
+let vol;
 let phase = 0;
 let zoff = 0;
 
@@ -52,22 +53,13 @@ function setup() {
   }
   addGUI();
 
-  // // 在 JS 文件中创建取色器 div 元素
-  // let colorPickerDiv = createDiv('');
-  // colorPickerDiv.id('color-picker');
-
-  // // 创建取色器实例
-  // const pickr = Pickr.create({
-  //   el: '#color-picker',
-  //   theme: 'classic',
-  // });
-
 }
 
 function draw() {
   foodPG.clear();
   foodPG.background(0, 0, 0, 0);
-  let vol = mic.getLevel() * 5;
+  vol = mic.getLevel() * 7;
+  console.log(vol);
 
   if (frameCount % 2 == 0) randomPoints();//the background color
   //soundThreshod();
