@@ -34,7 +34,7 @@ let redSlider, greenSlider, blueSlider;
 let disableDrawing = false;
 
 function setup() {
-  canvas = createCanvas(windowWidth, 600);
+  canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("sketch-container");
 
   fogBackground = createGraphics(windowWidth, 600);
