@@ -1,9 +1,9 @@
 function randomPoints() {
     //stroke(255, 255, 180,30);
     //strokeWeight(1);
-    fogBackground.noStroke();
-    fogBackground.fill(0, random(0, 200), random(0, 200),10);
-    fogBackground.ellipse(random(width), random(height), random(2, width));
+    noStroke();
+    fill(0, random(0, 200), random(0, 200),10);
+    ellipse(random(width), random(height), random(2, width));
 }
 
 function soundThreshod() {

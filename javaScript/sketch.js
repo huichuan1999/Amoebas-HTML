@@ -37,9 +37,6 @@ function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("sketch-container");
 
-  fogBackground = createGraphics(windowWidth, windowHeight);
-  fogBackground.parent("sketch-container");
-
   foodPG = createGraphics(windowWidth, windowHeight);
   foodPG.parent("sketch-container");
 
@@ -135,7 +132,6 @@ function draw() {
 
   image(foodPG, 0, 0);
   
-
 }
 
 function mousePressed() {
