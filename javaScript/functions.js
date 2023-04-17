@@ -40,6 +40,12 @@ function addAmoebas(x,y){
 
 function removeAmoebas(){
   if (noiseCircles.length>0){
-    noiseCircles.pop();
+    let lastAmoeba = noiseCircles[noiseCircles.length - 1];
+    lastAmoeba.br *= 2;
+    lastAmoeba.noiseMax *= 7; 
+    setTimeout(() => {
+      noiseCircles.pop();
+    }, 500);
+    //noiseCircles.pop();
   }
 }

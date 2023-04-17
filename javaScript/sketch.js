@@ -33,10 +33,10 @@ let redSlider, greenSlider, blueSlider;
 let disableDrawing = false;
 
 function setup() {
-  canvas = createCanvas(windowWidth, windowHeight);
+  canvas = createCanvas(windowWidth, 600);
   canvas.parent("sketch-container");
 
-  foodPG = createGraphics(windowWidth, windowHeight);
+  foodPG = createGraphics(windowWidth, 600);
   foodPG.parent("sketch-container");
 
   mic = new p5.AudioIn();
