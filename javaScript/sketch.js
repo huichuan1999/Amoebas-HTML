@@ -37,6 +37,9 @@ function setup() {
   canvas = createCanvas(windowWidth, 600);
   canvas.parent("sketch-container");
 
+  fogBackground = createGraphics(windowWidth, 600);
+  fogBackground.parent("sketch-container");
+
   foodPG = createGraphics(windowWidth, 600);
   foodPG.parent("sketch-container");
 
@@ -60,9 +63,10 @@ function draw() {
   foodPG.background(0, 0, 0, 0);
   vol = mic.getLevel() * 7;
   //console.log(vol);
-
-  if (frameCount % 2 == 0) randomPoints();//the background color
+  
+  if (frameCount % 2 == 0)randomPoints();//the background color
   //soundThreshod();
+  //image(fogBackground, 0, 0);
 
   for (let i = 0; i < noiseCircles.length; i++) {
     noiseCircles[i].Draw(vol);
@@ -130,6 +134,7 @@ function draw() {
   }
 
   image(foodPG, 0, 0);
+  
 
 }
 
