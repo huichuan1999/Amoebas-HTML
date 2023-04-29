@@ -10,7 +10,6 @@ class NoiseCircle {
 
     this.originalSize = this.br; // the basic core radius
     this.desired = new createVector(0,0); //desired the food location
-    //this.direction = new createVector(random(-1, 1), random(-1, 1)).normalize();
     this.friction = new createVector(0, 0);
     this.speedLimit = random(1, this.originalSize);
 
@@ -18,52 +17,20 @@ class NoiseCircle {
     this.hungryThreshold = 3;
     this.fullThreshold = 5;
 
-    // this.lastEatTime = millis();
-    //this.maxSize = 6;
-
-    // this.timeThresholds = {
-    //   hungryToFull: 3000, // 从饥饿到饱食
-    //   fullToHungry: 10000 // 从饱食到饥饿
-    // }
-    // this.checkState = function () {
-    //   const currentTime = millis();
-    //   const timeSinceLastEat = currentTime - this.lastEatTime;
-
-    //   if (this.br >= this.maxSize) {
-    //     this.creatureState = "full";
-    //   }
-
-    //   if (this.creatureState === 'hungry') {
-    //     if (timeSinceLastEat >= this.timeThresholds.hungryToFull) {
-    //       this.creatureState = 'full';
-    //       this.lastEatTime = currentTime;
-    //     }
-    //   } else if (this.creatureState === 'full') {
-    //     if (timeSinceLastEat >= this.timeThresholds.fullToHungry) {
-    //       this.creatureState = 'hungry';
-    //       this.lastEatTime = currentTime;
-    //     }
-    //   }
-    // }
     this.isFull = function () {
       return this.creatureState === 'full';
     }
-
-
   }
 
   update() {
-    
     if (this.creatureState === 'hungry' && this.br >= this.fullThreshold) {
       this.changeState('full');
     } else if (this.creatureState === 'full' && this.br <= this.hungryThreshold) {
       this.changeState('hungry');
     }
-
     if (this.creatureState === 'full' && this.br > this.originalSize) {
       this.br -= 0.1;
     }
-
     if (this.br < this.hungryThreshold) {
       this.changeState('hungry');
     } else if (this.br > this.fullThreshold) {
@@ -89,8 +56,6 @@ class NoiseCircle {
 
       //crawling zigzaggy
       let angle = noise(this.location.x / 500, this.location.y / 500, frameCount / 20) * TWO_PI * 2; //0-2PI
-      //this.velocity = p5.Vector.fromAngle(angle);
-      
 
       this.friction.x = this.velocity.x * -1;
       this.friction.y = this.velocity.y * -1;
@@ -108,15 +73,9 @@ class NoiseCircle {
 
   changeState(newState) {
     this.creatureState = newState;
-    // if (newState === "full") {
-    //   this.br = min(this.br, this.maxSize); // 限制半径大小不超过最大值
-    // }
-    // this.creatureState = newState;
-    // this.stateStart = millis();
   }
 
   firction() {
-    //if(this.moveToFood){
     // add friction to velocity
     this.friction.x = this.velocity.x * -1;
     this.friction.y = this.velocity.y * -1;
@@ -126,38 +85,19 @@ class NoiseCircle {
 
     this.velocity.limit(this.speedLimit);
     this.location.add(this.velocity);
-    //}
   }
 
   crawling() {
 
     let angle = noise(this.location.x / 500, this.location.y / 500, frameCount / 20) * TWO_PI * 2; //0-2PI
-
-    // this.velocity = p5.Vector.fromAngle(angle);
-    // //this.velocity.mult(3);
-
-    // this.location.add(this.velocity);
-
-    // let direction = p5.Vector.fromAngle(angle);
-    // direction.mult(3);
-
-    // this.location.add(direction);
-
-    //let randomAngle = random(TWO_PI)/100;
-    //angle += randomAngle;
     this.location.x += this.velocity.x * cos(angle) * 3;
     this.location.y += this.velocity.y * sin(angle) * 3;
     
   }
 
   bouncing() {
-    //bouncing
     if (this.location.x < 0 || this.location.x > width) this.velocity.x *= -1;
     if (this.location.y < 0 || this.location.y > height) this.velocity.y *= -1;
-    //this.direction.normalize();
-    //this.velocity.mult(this.direction);
-    ///this.location.add(this.velocity);
-
   }
 
 
@@ -187,17 +127,14 @@ class NoiseCircle {
   Draw(r) {
     push();
     translate(this.location.x, this.location.y);
-    //stroke(255, 255, 200,50);
     stroke(255, 100);
     strokeWeight(1);
-
     //let alpha1 = map(sin(zoff), -1,1,0,255);
     let alpha1 = 5;
 
     fill(this.color, alpha1);
     beginShape();
 
-    //this.noiseMax = map(r, 0, 0.5, 1, 5);
     for (let a = 0; a < TWO_PI; a += radians(5)) {
       let xoff = map(cos(a + phase), -1, 1, 0, this.noiseMax + r);
       let yoff = map(sin(a + phase), -1, 1, 0, this.noiseMax + r);
@@ -212,7 +149,6 @@ class NoiseCircle {
     zoff += this.zoffUpdate;
 
     //draw core
-
     let alpha2 = map(r, 0, 0.5, 20, 255);
 
     fill(255, 255, 200, alpha1);

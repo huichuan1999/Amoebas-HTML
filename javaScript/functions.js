@@ -1,6 +1,4 @@
 function randomPoints() {
-    //stroke(255, 255, 180,30);
-    //strokeWeight(1);
     noStroke();
     fill(0, random(0, 200), random(0, 200),10);
     ellipse(random(width), random(height), random(2, width));
@@ -25,7 +23,6 @@ function soundThreshod() {
 
 function updateBG() {
     noStroke();
-    //fill(210,210,255,20);
     fill(0, 100, 30, 5);
     rect(0, 0, width, height);
 }
@@ -46,6 +43,5 @@ function removeAmoebas(){
     setTimeout(() => {
       noiseCircles.pop();
     }, 500);
-    //noiseCircles.pop();
   }
 }

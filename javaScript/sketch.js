@@ -1,5 +1,5 @@
 //Amoebas - HTML
-//1-14-2023,Huichuan Wang
+//4-2023,Huichuan Wang
 /*
 It is a array of amoebas shapes like fried eggs, so at first I named it egg amoeba.
 I want to show it like real amoebas crawling zigzaggy. It will react to your sound, like a biological stress response. They also would like to communicate to each other,when they get close they will change color and concat together, exchange pheromones.
@@ -62,8 +62,6 @@ function draw() {
   //console.log(vol);
   
   if (frameCount % 2 == 0)randomPoints();//the background color
-  //soundThreshod();
-  //image(fogBackground, 0, 0);
 
   for (let i = 0; i < noiseCircles.length; i++) {
     noiseCircles[i].Draw(vol);
@@ -76,13 +74,11 @@ function draw() {
     let fullThreshold = 5;
 
     if (currentSize < hungryThreshold) {
-      //noiseCircles[i].changeState("hungry");
     } else if (currentSize >= fullThreshold) {
       noiseCircles[i].changeState("full");
     }
 
     if (noiseCircles[i].creatureState == "full") {
-      //console.log("i am full");
       if (currentSize > noiseCircles[i].originalSize) {
 
         noiseCircles[i].br -= 0.1;
@@ -95,24 +91,21 @@ function draw() {
 
       clearing = false;
       if (!clearing && noiseCircles[i].findFood(newFoods[f].location.x, newFoods[f].location.y)) {
-        //when it eat, it become bigger HUNGRY // 在这里执行生物处于饥饿状态时的操作
+        //when it eat, it become bigger HUNGRY 
         //console.log("Arrived");
-        noiseCircles[i].br += 0.1; //吃东西 变大
+        noiseCircles[i].br += 0.1; //eat and grow bigger
         if (noiseCircles[i].creatureState == "full") {
           break;
         }
-
       }
       newFoods[f].display();
     }
-    //console.log(clearing);
     //communication
     let overlapping = false;
     for (let j = 0; j < noiseCircles.length; j++) {
       if (i != j) {
         if (noiseCircles[j] != noiseCircles[i] && noiseCircles[i].communication(noiseCircles[j])) {
           overlapping = true;
-          //stroke(230, 238, 156, 100);
           stroke(255, 255, 200, 170);
           strokeWeight(4);
           line(noiseCircles[i].location.x, noiseCircles[i].location.y,
@@ -146,7 +139,6 @@ function pressOnCanvas() {
     newFoods.push(newFood);
     clearing = false;
   }
-  //console.log(newFoods);
 }
 
 function addGUI() {
@@ -154,7 +146,5 @@ function addGUI() {
   buttonAddACreature = new Button("Add A Creature", buttonAddACreaturePress);
   buttonKillACreature = new Button("Kill A Creature", buttonKillACreaturePress);
   buttonRestart = new Button("Restart", buttonRestartPress);
-  //buttonRestart.parent("restart-button-container");
-  //RGBSlider();
 }
 
