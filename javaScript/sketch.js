@@ -1,15 +1,19 @@
-//Amoebas - HTML
+//Amoebas - HTML interaction
 //4-2023,Huichuan Wang
 /*
 It is a array of amoebas shapes like fried eggs, so at first I named it egg amoeba.
-I want to show it like real amoebas crawling zigzaggy. It will react to your sound, like a biological stress response. They also would like to communicate to each other,when they get close they will change color and concat together, exchange pheromones.
-When you make a sound, yellow dots are generated at random positions, and their radius is your volume.When your sound is higher than the threshold, the background change.
+I want to show them like real amoebas crawling zigzaggy. It will react to your sound, like a biological stress response.
+They also would like to communicate to each other,when they get close they will change color and concat together, exchange pheromones.
+When you click the screen, yellow dots are generated as foods, you can observe the creatures move towards them and eat them.
+Click the buttons to clear food, add creatures, kill them, or restart.
 */
 //Acknowledgements (references, links, inspirations, etc:
 //noise loop references:https://editor.p5js.org/codingtrain/sketches/sy1p1vnQn
-//mic threshold : https://editor.p5js.org/p5/sketches/Sound:_Mic_Threshold
 //particle system: https://p5js.org/examples/simulate-particles.html
 //Genetic Algorithms and Evolutionary Computing :https://natureofcode.com/book/chapter-9-the-evolution-of-code/ 
+//move to food functions: https://huichuan1999.github.io/feeding-creatures/ 
+//https://learn.gold.ac.uk/mod/page/view.php?id=1256417 
+//The Progressive Web Apps (PWA) Template: https://learn.gold.ac.uk/mod/page/view.php?id=1270682
 
 let mic;
 let vol;

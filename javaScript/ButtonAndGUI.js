@@ -31,7 +31,7 @@ function buttonClearPress() {
         clearing = true;
         //foodPG.clear();
         foodPG.background(0, 0, 0, 0);
-        
+
         newFoods = newFoods.filter(newFood => newFood.id !== foodIdToRemove);
     }
 }
