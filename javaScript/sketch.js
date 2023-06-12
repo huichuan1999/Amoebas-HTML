@@ -66,6 +66,7 @@ function draw() {
   //console.log(vol);
   
   if (frameCount % 2 == 0)randomPoints();//the background color
+  //background(0);
 
   for (let i = 0; i < noiseCircles.length; i++) {
     noiseCircles[i].Draw(vol);
